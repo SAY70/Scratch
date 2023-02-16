@@ -26,13 +26,13 @@ r = sqrt(x.^2 + y.^2);  % radial distance from the center of the base
 valid = (r <= (1 - z / height) * radius); % check if the point is inside the inverted cone
 x = x(valid);
 y = y(valid);
-shift=4;
-z = z(valid)+shift;
+tz=4;  %tree height
+z = z(valid)+tz;
 Randloc = [x y z]
 
 % tree layer parameters
 tr = 0.1; % tree radius [m]
-tz = 4; % tree height [m]
+%tz = 4; % tree height [m] already included above
 
 % plot with a tree (cylinder)
 % create a cylinder of radius (tr) and height (tz)
@@ -41,7 +41,8 @@ Zt = tz * Zt;
 
 % to place our branches / leaves, we need to insert htem into the layer
 % i'll need to think about the best way to do this programmatically
-shift_factor = tz+shift ;
+
+%shift_factor = tz+shift ; this is of no use here!
 
 figure('color','white')
 surf(Xt, Yt, Zt, 'FaceColor', '#964B00')
