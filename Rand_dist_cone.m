@@ -23,12 +23,59 @@ r = sqrt(x.^2 + y.^2);  % radial distance from the center of the base
 %So, we can check if a point is inside the cone boundary by testing 
 % whether (1 - z / height) * (r^2 / radius^2 - 1) <= 0.
 
+% copy values to try a different method
+x2 = x ;
+y2 = y ;
+z2 = z ;
+
 valid = (r <= (1 - z / height) * radius); % check if the point is inside the inverted cone
 x = x(valid);
 y = y(valid);
 tz=4;  %tree height
 z = z(valid)+tz;
-Randloc = [x y z]
+Randloc = [x y z] ;
+
+%% alternative method for determining if points are within cone.
+% this method might be more generalized to arbitrary viewing angle for
+% scobi.
+
+% in this example, the cone is pointing downwards
+vp = [0 0 height]';     % cone vertex point
+bp = [0 0 0]';          % cone base point
+rp = [radius 0 0]' ;    % cone end radius point
+
+% unit vec from cone vertex pointing directly to cone base center
+cv = bp - vp ; % head - tail
+cv = cv ./ vecnorm(cv) ;
+% unit vec along the length of the cone; determine cone angle
+ca = (rp - vp) ;
+ca = ca ./ vecnorm( ca ) ;
+% one angle
+cone_angle = acosd( dot(cv,ca) );
+
+% unit vector from cone vertex to point r
+cr = ([x2 y2 z2]' - vp);
+cr = cr ./ vecnorm(cr) ;
+% angle between the cone vertex central axis and each point 
+cz2 = repmat( cv, [1 size(x2,1)] );
+p_angle = acosd( dot( cz2, cr ) )';
+% only include points smaller than the cone angle
+valid2 = (p_angle <= cone_angle) ;
+
+% show that these two methods are equal
+switch isequal(valid, valid2) 
+    case 0
+        disp('methods not equal! :(')
+    case 1
+        disp('methods are equal! :)')
+end
+clear bp vp cz cz2 ca cone_angle rp cr
+
+x = x2(valid2);
+y = y2(valid2);
+shift=4;
+z = z2(valid2)+shift;
+Randloc = [x y z] ;
 
 % tree layer parameters
 tr = 0.1; % tree radius [m]
