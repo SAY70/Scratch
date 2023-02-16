@@ -10,6 +10,19 @@ z = height - height * rand(n, 1);     % z coordinates (inverted)
 
 % Filter out the points that are outside the inverted cone
 r = sqrt(x.^2 + y.^2);  % radial distance from the center of the base
+
+%r = radius * sqrt(z / height); where radius is the radius of the cone 
+% base and height is the height of the cone. We can rearrange this 
+% equation to get: z / height = r^2 / radius^2; So, if a point is 
+% inside the cone boundary, then z / height must be less than or 
+% equal to r^2 / radius^2. Rearranging this inequality, we get:
+% r^2 / radius^2 - z / height >= 0; We can simplify this inequality 
+% by factoring out (1 - z / height) from the left-hand side: 
+% (r^2 / radius^2) - (z / height) * (r^2 / radius^2) - (1 - z / height) 
+% = (1 - z / height) * (r^2 / radius^2 - 1) <= 0;
+%So, we can check if a point is inside the cone boundary by testing 
+% whether (1 - z / height) * (r^2 / radius^2 - 1) <= 0.
+
 valid = (r <= (1 - z / height) * radius); % check if the point is inside the inverted cone
 x = x(valid);
 y = y(valid);
