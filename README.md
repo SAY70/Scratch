@@ -1,1 +1,5 @@
-# In this code, we first define the radius and height of the inverted cone. Then we generate random points within the boundary of the inverted cone using a uniform distribution. Next, we invert the z coordinates by subtracting them from the height of the cone. Finally, we filter out the points that are outside the inverted cone by checking if the radial distance from the center of the base is less than or equal to the radius at that height. We then visualize the distribution of particles using a 3D scatter plot.
+# Scratch
+
+MATLAB scratch scripts.
+
+`Rand_dist_cone.m`: In this code, we first define the radius and height of the inverted cone. Then we generate random points within the boundary of the inverted cone using a uniform distribution. Next, we invert the z coordinates by subtracting them from the height of the cone. Finally, we filter out the points that are outside the inverted cone by checking if the radial distance from the center of the base is less than or equal to the radius at that height. We then visualize the distribution of particles using a 3D scatter plot.
